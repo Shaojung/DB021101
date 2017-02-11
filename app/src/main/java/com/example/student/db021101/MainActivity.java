@@ -3,6 +3,8 @@ package com.example.student.db021101;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -21,10 +23,13 @@ import javax.xml.parsers.SAXParserFactory;
 
 public class MainActivity extends AppCompatActivity {
     MyDataHandler dataHandler;
+    ListView lv;
+    ArrayAdapter<String> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        lv = (ListView) findViewById(R.id.listView);
         dataHandler = new MyDataHandler();
         new Thread(){
             @Override
@@ -51,6 +56,16 @@ public class MainActivity extends AppCompatActivity {
                     XMLReader xr = sp.getXMLReader();
                     xr.setContentHandler(dataHandler);
                     xr.parse(new InputSource(new StringReader(str)));
+
+                    adapter = new ArrayAdapter<String>(MainActivity.this,
+                                android.R.layout.simple_list_item_1,
+                                dataHandler.MyTitle);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            lv.setAdapter(adapter);
+                        }
+                    });
 
                 } catch (IOException e) {
                     e.printStackTrace();
