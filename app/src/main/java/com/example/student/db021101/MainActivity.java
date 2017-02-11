@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                         result.write(buffer, 0, length);
                     }
                     String str = result.toString("UTF-8");
-                    Log.d("NET", str);
+                    // Log.d("NET", str);
 
                     SAXParserFactory spf = SAXParserFactory.newInstance();
                     SAXParser sp = spf.newSAXParser();
